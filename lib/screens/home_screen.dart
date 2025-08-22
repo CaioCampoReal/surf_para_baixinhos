@@ -27,7 +27,45 @@ class _HomeScreenState extends State<HomeScreen> {
       descricao:
           'Volante confortável e com grip perfeito para direção esportiva.',
     ),
-    // ... outros itens ...
+    Item(
+      id: 3,
+      nome: 'Farol LED',
+      preco: 350.00,
+      imageUrl: 'https://example.com/farol_led.jpg',
+      descricao:
+          'Farol com tecnologia LED para melhor visibilidade e menor consumo.',
+    ),
+    Item(
+      id: 4,
+      nome: 'Banco esportivo',
+      preco: 1200.00,
+      imageUrl: 'https://example.com/banco_esportivo.jpg',
+      descricao:
+          'Banco com design ergonômico para maior conforto e suporte lateral.',
+    ),
+    Item(
+      id: 5,
+      nome: 'Kit suspensão esportiva',
+      preco: 1800.00,
+      imageUrl: 'https://example.com/suspensao.jpg',
+      descricao:
+          'Kit completo para melhorar a estabilidade e resposta do carro.',
+    ),
+    Item(
+      id: 6,
+      nome: 'Escape esportivo',
+      preco: 950.00,
+      imageUrl: 'https://example.com/escape.jpg',
+      descricao: 'Escape que melhora o desempenho e o som do motor.',
+    ),
+    Item(
+      id: 7,
+      nome: 'Tapetes personalizados',
+      preco: 150.00,
+      imageUrl: 'https://example.com/tapetes.jpg',
+      descricao:
+          'Tapetes resistentes e com design exclusivo para o interior do carro.',
+    ),
   ];
 
   final List<String> _carouselImages = [
