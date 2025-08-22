@@ -20,7 +20,7 @@ class GalleryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Nossa Galeria'),
+        title: const Text('Surf Para Baixinhos'),
         actions: [
           IconButton(
             icon: const Icon(Icons.info_outline, semanticLabel: 'Informações da Galeria'),

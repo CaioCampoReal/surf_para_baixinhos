@@ -1,127 +1,135 @@
 import 'package:flutter/material.dart';
-import 'package:meu_projeto_integrador/screens/detail_screen.dart';
-import 'package:meu_projeto_integrador/screens/gallery_screen.dart';
-import 'package:meu_projeto_integrador/screens/todo_list_screen.dart'; // Importar nova tela
+import '../models/item_model.dart';
+import './item_card.dart';
+import 'detail_screen.dart';
+import '../theme.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
+  const HomeScreen({Key? key}) : super(key: key);
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _contadorClique = 0; // Estado local para o contador
+  final List<Item> _items = [
+    Item(
+      id: 1,
+      nome: 'Pneu de alta performance',
+      preco: 299.90,
+      imageUrl: 'https://example.com/pneu.jpg',
+      descricao: 'Pneu para carros esportivos, alta durabilidade e aderência.',
+    ),
+    Item(
+      id: 2,
+      nome: 'Volante esportivo',
+      preco: 450.00,
+      imageUrl: 'https://example.com/volante.jpg',
+      descricao:
+          'Volante confortável e com grip perfeito para direção esportiva.',
+    ),
+    // ... outros itens ...
+  ];
 
-  void _incrementarContador() {
-    setState(() {
-      // Notifica o Flutter que o estado mudou
-      _contadorClique++;
-    });
-  }
+  final List<String> _carouselImages = [
+    'https://example.com/banner1.jpg',
+    'https://example.com/banner2.jpg',
+    'https://example.com/banner3.jpg',
+  ];
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tela Principal'),
+        title: const Text('Loja de Itens para Carros'),
+        backgroundColor: AppColors.primaryBlue,
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(12),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Bem-vindo ao Projeto Integrador!',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 30),
-
-            // Exemplo de Contador com setState
-            const Text(
-              'Cliques no botão de navegação:',
-              style: TextStyle(fontSize: 18),
-            ),
+            // Título carrossel
             Text(
-              '$_contadorClique',
-              style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
+              'Destaques',
+              style: theme.textTheme.titleLarge?.copyWith(
+                color: AppColors.burntYellow,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 8),
 
-            ElevatedButton(
-              onPressed: () {
-                _incrementarContador(); // Incrementa o contador
-                // Navegar para a tela de detalhes, passando dados
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DetailScreen(
-                      itemId: 42,
-                      itemName: 'Item Secreto',
-                      cliquesContador:
-                          _contadorClique, // Passando o estado do contador
+            // Carrossel scroll horizontal
+            SizedBox(
+              height: 180,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: _carouselImages.length,
+                separatorBuilder: (_, __) => const SizedBox(width: 12),
+                itemBuilder: (context, index) {
+                  final url = _carouselImages[index];
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Image.network(
+                      url,
+                      width: 320,
+                      height: 180,
+                      fit: BoxFit.cover,
+                      loadingBuilder: (context, child, progress) {
+                        if (progress == null) return child;
+                        return const Center(child: CircularProgressIndicator());
+                      },
+                      errorBuilder: (context, error, stackTrace) => Container(
+                        width: 320,
+                        height: 180,
+                        color: Colors.grey[300],
+                        child: const Icon(Icons.broken_image, size: 60),
+                      ),
                     ),
-                  ),
-                );
-              },
-              child: const Text('Ir para Detalhes do Item'),
+                  );
+                },
+              ),
             ),
-            const SizedBox(height: 20),
 
-            // Exemplo de pushReplacement - útil após login ou reset
-            ElevatedButton(
-              onPressed: () {
-                // Simula um "logout" ou "reset" do app, retornando à tela principal
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          const HomeScreen()), // Redireciona para a própria Home, mas substitui na pilha
-                );
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Simulando reset/logout!')),
-                );
-              },
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-              child: const Text('Simular Reset/Logout'),
+            const SizedBox(height: 24),
+
+            // Título lista
+            Text(
+              'Itens disponíveis',
+              style: theme.textTheme.titleLarge?.copyWith(
+                color: AppColors.yellowHighlight,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            //---------------------------------//
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const GalleryScreen()),
-                );
-              },
-              child: const Text('Ver Galeria de Imagens'),
+
+            const SizedBox(height: 12),
+
+            // Lista expansível de itens
+            Expanded(
+              child: GridView.builder(
+                itemCount: _items.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 12,
+                  mainAxisSpacing: 12,
+                  childAspectRatio: 0.75,
+                ),
+                itemBuilder: (context, index) {
+                  final item = _items[index];
+                  return ItemCard(
+                    item: item,
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => DetailScreen(item: item),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
             ),
-            const SizedBox(height: 20),
-            Image.asset(
-              'assets/logo.jpg', // Substitua pelo seu asset real
-              height: 100,
-              width: 100,
-              semanticLabel:
-                  'Logo do Meu Projeto Integrador', // Acessibilidade!
-            ),
-            const SizedBox(height: 10),
-            const Text(
-              'Nosso Logo',
-              style: TextStyle(fontSize: 16),
-            ),
-            //-----------------------------//
-            const SizedBox(height: 10),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const TodoListScreen()),
-                );
-              },
-              child: const Text('Ver Lista de Tarefas (API)'),
-            ),
-            const SizedBox(height: 20),
           ],
         ),
       ),

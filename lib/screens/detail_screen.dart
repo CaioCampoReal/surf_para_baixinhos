@@ -1,52 +1,54 @@
 import 'package:flutter/material.dart';
 
-class DetailScreen extends StatelessWidget {
-  // Dados que serão recebidos da tela anterior
-  final int itemId;
-  final String itemName;
-  final int cliquesContador;
+import 'package:flutter/material.dart';
+import '../models/item_model.dart';
 
-  const DetailScreen({
-    super.key,
-    required this.itemId,
-    required this.itemName,
-    this.cliquesContador = 0, // Valor padrão caso não seja passado
-  });
+class DetailScreen extends StatelessWidget {
+  final Item item;
+
+  const DetailScreen({Key? key, required this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Detalhes: $itemName'),
+        title: Text(item.nome),
       ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              'Você está na Tela de Detalhes!',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
+            Image.network(
+              item.imageUrl,
+              fit: BoxFit.cover,
+              height: 250,
+              width: double.infinity,
+              errorBuilder: (context, error, stackTrace) => Container(
+                color: Colors.grey[300],
+                height: 250,
+                child: const Icon(Icons.broken_image, size: 100),
+              ),
             ),
-            const SizedBox(height: 20),
-            Text(
-              'ID do Item: $itemId',
-              style: const TextStyle(fontSize: 18),
-            ),
-            Text(
-              'Nome do Item: $itemName',
-              style: const TextStyle(fontSize: 18),
-            ),
-            Text(
-              'Cliques na tela anterior: $cliquesContador',
-              style: const TextStyle(fontSize: 18),
-            ),
-            const SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context); // Volta para a tela anterior
-              },
-              child: const Text('Voltar para Tela Principal'),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    item.nome,
+                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'R\$ ${item.preco.toStringAsFixed(2)}',
+                    style: const TextStyle(fontSize: 20, color: Colors.green),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    item.descricao,
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -54,3 +56,4 @@ class DetailScreen extends StatelessWidget {
     );
   }
 }
+
