@@ -17,17 +17,12 @@ class DetailScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Image.network(
+            Image.asset(
               item.imageUrl,
+              width: 320,
+              height: 180,
               fit: BoxFit.cover,
-              height: 250,
-              width: double.infinity,
-              errorBuilder: (context, error, stackTrace) => Container(
-                color: Colors.grey[300],
-                height: 250,
-                child: const Icon(Icons.broken_image, size: 100),
-              ),
-            ),
+             ),
             Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
