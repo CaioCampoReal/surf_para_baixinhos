@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'package:flutter/material.dart';
 import '../models/item_model.dart';
+import '../components/organisms/product_detail.dart';
 
 class DetailScreen extends StatelessWidget {
   final Item item;
@@ -12,43 +11,28 @@ class DetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(item.nome),
+        title: Semantics(
+          excludeSemantics: true,
+          child: Text(item.nome),
+        ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Image.asset(
-              item.imageUrl,
-              width: 320,
-              height: 180,
-              fit: BoxFit.cover,
-             ),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    item.nome,
-                    style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    'R\$ ${item.preco.toStringAsFixed(2)}',
-                    style: const TextStyle(fontSize: 20, color: Colors.green),
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    item.descricao,
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                ],
+      body: Semantics(
+        label: 'Tela de detalhes do produto ${item.nome}. Preço: R\$ ${item.preco.toStringAsFixed(2)}. ${item.descricao}',
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 600),
+              child: ProductDetail(
+                imageUrl: item.imageUrl,
+                nome: item.nome,
+                preco: item.preco,
+                descricao: item.descricao,
               ),
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
-

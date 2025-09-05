@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meu_projeto_integrador/screens/home_screen.dart'; // Importar a tela principal
-import 'package:meu_projeto_integrador/screens/detail_screen.dart'; // Importar a tela de detalhes
-import 'package:meu_projeto_integrador/screens/item_list_screen.dart';
 import 'package:meu_projeto_integrador/screens/login_screen.dart';
-import 'package:meu_projeto_integrador/screens/todo_list_screen.dart';
 import 'theme.dart';
 
 void main() {
@@ -18,12 +14,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Projeto Integrador',
       theme: appTheme,
-      // home: const HomeScreen(), // A tela inicial do aplicativo
-      home: const LoginScreen(), // A tela inicial do aplicativo
-      // Exemplo de rotas nomeadas (opcional para essa aula, mas bom para referência futura)
-      // routes: {
-      //   '/details': (context) => const DetailScreen(),
-      // },
+      
+      home: const LoginScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

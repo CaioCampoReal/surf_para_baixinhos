@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:meu_projeto_integrador/mocks/item_list.dart';
-import '../models/item_model.dart';
-import './item_card.dart';
-import 'detail_screen.dart';
+import 'package:meu_projeto_integrador/models/item_model.dart';
+import '../components/organisms/app_bar_custom.dart';
+import '../components/organisms/image_carousel.dart';
+import '../components/organisms/product_grid.dart';
+import '../components/molecules/section_title.dart';
 import '../theme.dart';
+import 'detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -20,80 +23,44 @@ class _HomeScreenState extends State<HomeScreen> {
     'assets/carrossel3.png',
   ];
 
+  void _navigateToDetail(Item item) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => DetailScreen(item: item),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Surf Para Baixinhos'),
+      appBar: AppBarCustom(
+        title: 'Surf Para Baixinhos',
         backgroundColor: AppColors.primaryBlue,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Carrossel scroll horizontal
-            SizedBox(
-              height: 180,
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemCount: _carouselImages.length,
-                separatorBuilder: (_, __) => const SizedBox(width: 12),
-                itemBuilder: (context, index) {
-                  final url = _carouselImages[index];
-                  return ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Image.asset(
-                      url,
-                      width: 320,
-                      height: 180,
-                      fit: BoxFit.cover,
-                    ),
-                  );
-                },
-              ),
-            ),
-
+            ImageCarousel(images: _carouselImages),
+            
             const SizedBox(height: 24),
-
-            // Título lista
-            Text(
-              'Itens disponíveis',
-              style: theme.textTheme.titleLarge?.copyWith(
-                color: AppColors.yellowHighlight,
-                fontWeight: FontWeight.bold,
-              ),
+            
+            SectionTitle(
+              title: 'Itens disponíveis',
+              color: AppColors.primaryBlue,
             ),
-
+            
             const SizedBox(height: 12),
-
-            // Lista expansível de itens
-            Expanded(
-              child: GridView.builder(
-                itemCount: _items.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
-                  childAspectRatio: 0.75,
-                ),
-                itemBuilder: (context, index) {
-                  final item = _items[index];
-                  return ItemCard(
-                    item: item,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => DetailScreen(item: item),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
+            
+            ProductGrid(
+              items: _items,
+              onItemTap: _navigateToDetail,
             ),
+            
+            const SizedBox(height: 20),
           ],
         ),
       ),

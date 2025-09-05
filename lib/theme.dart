@@ -11,7 +11,7 @@ class AppColors {
 final ThemeData appTheme = ThemeData(
   primaryColor: AppColors.primaryBlue,
   scaffoldBackgroundColor: AppColors.background,
-  appBarTheme: AppBarTheme(
+  appBarTheme: const AppBarTheme(
     backgroundColor: AppColors.primaryBlue,
     foregroundColor: AppColors.white,
     elevation: 2,
@@ -29,9 +29,9 @@ final ThemeData appTheme = ThemeData(
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
     fillColor: AppColors.white,
-    labelStyle: TextStyle(color: AppColors.primaryBlue),
+    labelStyle: const TextStyle(color: AppColors.primaryBlue),
     focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(color: AppColors.primaryBlue, width: 2),
+      borderSide: const BorderSide(color: AppColors.primaryBlue, width: 2),
       borderRadius: BorderRadius.circular(8),
     ),
     border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
