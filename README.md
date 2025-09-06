@@ -1,16 +1,53 @@
-# meu_projeto_integrador
+Surf Para Baixinhos
 
-A new Flutter project.
+Sobre o Projeto:
+    O Surf Para Baixinhos é um aplicativo Flutter para loja de peças automotivas.
 
-## Getting Started
+Funcionalidades:
 
-This project is a starting point for a Flutter application.
+    Catálogo de Produtos:
+        Grid de produtos com layout responsivo
 
-A few resources to get you started if this is your first Flutter project:
+        Carrossel de imagens promocionais
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+        Navegação para detalhes do produto
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+        Animações de interação nos cards
+    
+    Sistema de Login:
+        Validações em tempo real
+
+        Feedback visual para o usuário
+
+        Navegação segura para a home
+    
+    Acessibilidade:
+        Semantics para leitores de tela
+
+        Labels descritivas para todos os elementos interativos
+
+        Navegação por teclado compatível(somente na tela de login, por enquanto)
+    
+    Arquitetura - Atomic Design
+
+Novidades da Versão Atual:
+
+    Melhorias de UI/UX:
+        Animações: Scale animation nos cards ao toque
+
+        Carrossel Automático: Transição automática de imagens
+
+     Acessibilidade Implementada:
+        Screen Readers: Suporte completo a TalkBack/VoiceOver
+
+        Semantics: Labels descritivas em todos os componentes
+    
+    Validações de Formulário
+
+Próximas Implementações:
+
+    Sistema de carrinho de compras
+
+    Favoritos persistentes
+
+    Busca e filtros de produtos
