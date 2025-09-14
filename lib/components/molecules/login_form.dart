@@ -54,7 +54,6 @@ class LoginForm extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               
-              // NOVO CAMPO EMAIL
               CustomTextField(
                 controller: emailController,
                 labelText: 'Email',

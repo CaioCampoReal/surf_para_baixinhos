@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../models/item_model.dart';
 import '../components/organisms/product_detail.dart';
+import '../components/organisms/app_bar_custom.dart';
+import '../theme.dart'; 
 
 class DetailScreen extends StatelessWidget {
   final Item item;
@@ -10,11 +12,11 @@ class DetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Semantics(
-          excludeSemantics: true,
-          child: Text(item.nome),
-        ),
+      appBar: AppBarCustom( 
+        title: item.nome,
+        backgroundColor: AppColors.primaryBlue, 
+        foregroundColor: Colors.white,
+        semanticLabel: 'Cabeçalho de detalhes do produto ${item.nome}',
       ),
       body: Semantics(
         label: 'Tela de detalhes do produto ${item.nome}. Preço: R\$ ${item.preco.toStringAsFixed(2)}. ${item.descricao}',
