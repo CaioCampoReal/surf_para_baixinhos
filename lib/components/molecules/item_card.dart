@@ -27,13 +27,11 @@ class _ItemCardState extends State<ItemCard> with SingleTickerProviderStateMixin
   void initState() {
     super.initState();
     
-   
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 150),
     );
     
-   
     _scaleAnimation = Tween<double>(begin: 1.0, end: 0.95).animate(
       CurvedAnimation(
         parent: _controller,
@@ -96,16 +94,19 @@ class _ItemCardState extends State<ItemCard> with SingleTickerProviderStateMixin
                       topLeft: Radius.circular(12),
                       topRight: Radius.circular(12),
                     ),
-                    child: CustomImage(
-                      imageUrl: widget.item.imageUrl,
-                      width: double.infinity,
-                      height: double.infinity,
-                      fit: BoxFit.cover,
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(12),
-                        topRight: Radius.circular(12),
+                    child: Hero( // ✅ HERO ADICIONADO AQUI
+                      tag: 'product-image-${widget.item.id}', // ✅ TAG ÚNICA
+                      child: CustomImage(
+                        imageUrl: widget.item.imageUrl,
+                        width: double.infinity,
+                        height: double.infinity,
+                        fit: BoxFit.cover,
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          topRight: Radius.circular(12),
+                        ),
+                        semanticLabel: 'Imagem do produto ${widget.item.nome}',
                       ),
-                      semanticLabel: 'Imagem do produto ${widget.item.nome}',
                     ),
                   ),
                 ),

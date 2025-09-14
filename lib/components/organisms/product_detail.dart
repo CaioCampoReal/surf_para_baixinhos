@@ -7,6 +7,7 @@ class ProductDetail extends StatelessWidget {
   final String nome;
   final double preco;
   final String descricao;
+  final String heroTag;
 
   const ProductDetail({
     Key? key,
@@ -14,6 +15,7 @@ class ProductDetail extends StatelessWidget {
     required this.nome,
     required this.preco,
     required this.descricao,
+    required this.heroTag,
   }) : super(key: key);
 
   @override
@@ -21,11 +23,14 @@ class ProductDetail extends StatelessWidget {
     return Column(
       children: [
         Center(
-          child: CustomImage(
-            imageUrl: imageUrl,
-            width: 320,
-            height: 240,
-            borderRadius: BorderRadius.circular(12),
+          child: Hero(
+            tag: heroTag,
+            child: CustomImage(
+              imageUrl: imageUrl,
+              width: 320,
+              height: 240,
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         ),
         const SizedBox(height: 20),

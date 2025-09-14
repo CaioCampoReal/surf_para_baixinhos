@@ -28,6 +28,7 @@ class DetailScreen extends StatelessWidget {
                 nome: item.nome,
                 preco: item.preco,
                 descricao: item.descricao,
+                heroTag: 'product-image-${item.id}',
               ),
             ),
           ),
