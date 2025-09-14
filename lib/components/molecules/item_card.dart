@@ -94,8 +94,8 @@ class _ItemCardState extends State<ItemCard> with SingleTickerProviderStateMixin
                       topLeft: Radius.circular(12),
                       topRight: Radius.circular(12),
                     ),
-                    child: Hero( // ✅ HERO ADICIONADO AQUI
-                      tag: 'product-image-${widget.item.id}', // ✅ TAG ÚNICA
+                    child: Hero(
+                      tag: 'product-image-${widget.item.id}',
                       child: CustomImage(
                         imageUrl: widget.item.imageUrl,
                         width: double.infinity,

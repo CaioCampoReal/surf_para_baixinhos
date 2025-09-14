@@ -78,12 +78,12 @@ class _LoginScreenState extends State<LoginScreen> {
             child: LoginContainer(
               child: LoginForm(
                 usuarioController: _usuarioController,
-                emailController: _emailController, 
+                emailController: _emailController,
                 senhaController: _senhaController,
                 formKey: _formKey,
                 onLogin: _login,
                 validarUsuario: _validarUsuario,
-                validarEmail: _validarEmail, 
+                validarEmail: _validarEmail,
                 validarSenha: _validarSenha,
                 formWidth: 400,
                 usuarioSemanticHint: 'Digite seu nome de usuário com pelo menos 3 caracteres',

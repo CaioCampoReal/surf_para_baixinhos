@@ -7,6 +7,7 @@ import '../components/organisms/product_grid.dart';
 import '../components/molecules/section_title.dart';
 import '../theme.dart';
 import 'detail_screen.dart';
+import 'login_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -32,12 +33,28 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  void _navigateToLogin() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const LoginScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBarCustom(
         title: 'Surf Para Baixinhos',
         backgroundColor: AppColors.primaryBlue,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.person, color: Colors.white),
+            onPressed: _navigateToLogin,
+            tooltip: 'Fazer login ou cadastrar',
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(12),

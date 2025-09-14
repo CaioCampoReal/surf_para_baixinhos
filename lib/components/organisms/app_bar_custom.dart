@@ -3,17 +3,19 @@ import 'package:flutter/material.dart';
 class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Color backgroundColor;
-  final List<Widget>? actions;
+  final Color foregroundColor; 
+  final List<Widget>? actions; 
   final bool centerTitle;
-  final String? semanticLabel; 
+  final String? semanticLabel;
 
   const AppBarCustom({
     Key? key,
     required this.title,
     this.backgroundColor = Colors.blue,
-    this.actions,
+    this.foregroundColor = Colors.white, 
+    this.actions, 
     this.centerTitle = true,
-    this.semanticLabel, 
+    this.semanticLabel,
   }) : super(key: key);
 
   @override
@@ -23,7 +25,7 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Semantics(
       label: semanticLabel ?? 'Cabeçalho $title',
-      header: true, 
+      header: true,
       child: AppBar(
         title: Semantics(
           excludeSemantics: true,
@@ -32,11 +34,13 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
             style: const TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 20,
+              color: Colors.white, 
             ),
           ),
         ),
         backgroundColor: backgroundColor,
-        actions: actions,
+        foregroundColor: foregroundColor, 
+        actions: actions, 
         centerTitle: centerTitle,
         elevation: 4,
         shape: const RoundedRectangleBorder(
@@ -44,6 +48,7 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
             bottom: Radius.circular(8),
           ),
         ),
+        iconTheme: IconThemeData(color: foregroundColor),
       ),
     );
   }
