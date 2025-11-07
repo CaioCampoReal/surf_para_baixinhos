@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "243663523925",
+    "project_id": "surf-para-baixinhos",
+    "storage_bucket": "surf-para-baixinhos.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:243663523925:android:f73023dd3ce6e53c7d44dc",
+        "android_client_info": {
+          "package_name": "com.example.meu_projeto_integrador"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQEqY-NeMj_RVlws-f9BGRcYVJ0IQ3I-k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:243663523925:android:376167794aa1d0e57d44dc",
+        "android_client_info": {
+          "package_name": "com.surf.parabaixinhos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQEqY-NeMj_RVlws-f9BGRcYVJ0IQ3I-k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
