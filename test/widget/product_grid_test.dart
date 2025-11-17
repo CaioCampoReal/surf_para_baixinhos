@@ -6,25 +6,28 @@ import 'package:meu_projeto_integrador/presentation/widgets/organisms/product_gr
 void main() {
   final mockItems = [
     Item(
-      id: 1,
+      id: '1',
       nome: 'Pneu Performance',
       preco: 299.9,
       imageUrl: 'assets/pneu.png',
       descricao: 'Pneu esportivo',
+      quantidade: 1,
     ),
     Item(
-      id: 2,
+      id: '2',
       nome: 'Prancha Surf',
       preco: 599.9,
       imageUrl: 'assets/prancha.png',
       descricao: 'Prancha profissional',
+      quantidade: 1,
     ),
     Item(
-      id: 3,
+      id: '3',
       nome: 'Roupa de Neoprene',
       preco: 199.9,
       imageUrl: 'assets/roupa.png',
       descricao: 'Roupa térmica',
+      quantidade: 1,
     ),
   ];
 
@@ -69,7 +72,7 @@ void main() {
       await tester.pump();
 
       expect(tappedItem, isNotNull);
-      expect(tappedItem.id, 1);
+      expect(tappedItem.id, '1');
       expect(tappedItem.nome, 'Pneu Performance');
     });
 

@@ -2,5 +2,9 @@ import '../entities/item.dart';
 
 abstract class ItemRepository {
   Future<List<Item>> getItems();
-  Future<Item> getItemById(int id);
+  Future<Item> getItemById(String id);
+  Future<String> addItem(Item item);
+  Future<void> updateItem(Item item);
+  Future<void> deleteItem(String id);
 }
+

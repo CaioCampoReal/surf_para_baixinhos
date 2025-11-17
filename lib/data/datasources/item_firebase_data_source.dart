@@ -3,10 +3,10 @@ import 'package:meu_projeto_integrador/domain/entities/item.dart';
 
 abstract class ItemFirestoreDataSource {
   Future<List<Item>> getItems();
-  Future<Item> getItemById(int id);
-  Future<void> addItem(Item item);
+  Future<Item> getItemById(String id);
+  Future<String> addItem(Item item);
   Future<void> updateItem(Item item);
-  Future<void> deleteItem(int id);
+  Future<void> deleteItem(String id);
 }
 
 class ItemFirestoreDataSourceImpl implements ItemFirestoreDataSource {
@@ -17,27 +17,27 @@ class ItemFirestoreDataSourceImpl implements ItemFirestoreDataSource {
     try {
       final querySnapshot = await _firestore.collection('products').get();
 
-      final items = querySnapshot.docs.map((doc) {
+      return querySnapshot.docs.map((doc) {
         final data = doc.data();
+
         return Item(
-          id: int.tryParse(doc.id) ?? 0,
+          id: doc.id,
           nome: data['nome'] as String,
           preco: (data['preco'] as num).toDouble(),
           imageUrl: data['imageUrl'] as String,
           descricao: data['descricao'] as String,
+          quantidade: (data['quantidade'] as num).toInt(),
         );
       }).toList();
-
-      return items;
     } catch (e) {
       rethrow;
     }
   }
 
   @override
-  Future<Item> getItemById(int id) async {
+  Future<Item> getItemById(String id) async {
     try {
-      final doc = await _firestore.collection('products').doc(id.toString()).get();
+      final doc = await _firestore.collection('products').doc(id).get();
 
       if (!doc.exists) {
         throw Exception('Produto com id $id não encontrado');
@@ -45,11 +45,12 @@ class ItemFirestoreDataSourceImpl implements ItemFirestoreDataSource {
 
       final data = doc.data()!;
       return Item(
-        id: int.tryParse(doc.id) ?? 0,
-        nome: data['nome'] as String,
+        id: doc.id,
+        nome: data['nome'],
         preco: (data['preco'] as num).toDouble(),
-        imageUrl: data['imageUrl'] as String,
-        descricao: data['descricao'] as String,
+        imageUrl: data['imageUrl'],
+        descricao: data['descricao'],
+        quantidade: (data['quantidade'] as num).toInt(),
       );
     } catch (e) {
       throw Exception('Erro ao buscar produto: $e');
@@ -57,15 +58,18 @@ class ItemFirestoreDataSourceImpl implements ItemFirestoreDataSource {
   }
 
   @override
-  Future<void> addItem(Item item) async {
+  Future<String> addItem(Item item) async {
     try {
-      await _firestore.collection('products').doc(item.id.toString()).set({
+      final docRef = await _firestore.collection('products').add({
         'nome': item.nome,
         'preco': item.preco,
         'imageUrl': item.imageUrl,
         'descricao': item.descricao,
+        'quantidade': item.quantidade,
         'createdAt': FieldValue.serverTimestamp(),
       });
+
+      return docRef.id;
     } catch (e) {
       throw Exception('Erro ao adicionar produto: $e');
     }
@@ -74,11 +78,12 @@ class ItemFirestoreDataSourceImpl implements ItemFirestoreDataSource {
   @override
   Future<void> updateItem(Item item) async {
     try {
-      await _firestore.collection('products').doc(item.id.toString()).update({
+      await _firestore.collection('products').doc(item.id).update({
         'nome': item.nome,
         'preco': item.preco,
         'imageUrl': item.imageUrl,
         'descricao': item.descricao,
+        'quantidade': item.quantidade,
         'updatedAt': FieldValue.serverTimestamp(),
       });
     } catch (e) {
@@ -87,9 +92,9 @@ class ItemFirestoreDataSourceImpl implements ItemFirestoreDataSource {
   }
 
   @override
-  Future<void> deleteItem(int id) async {
+  Future<void> deleteItem(String id) async {
     try {
-      await _firestore.collection('products').doc(id.toString()).delete();
+      await _firestore.collection('products').doc(id).delete();
     } catch (e) {
       throw Exception('Erro ao excluir produto: $e');
     }

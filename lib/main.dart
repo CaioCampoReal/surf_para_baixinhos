@@ -5,6 +5,9 @@ import 'firebase_options.dart';
 import 'presentation/pages/home_screen.dart';
 import 'presentation/providers/service_locator.dart' as di;
 import 'presentation/blocs/auth_cubit/auth_cubit.dart';
+import 'presentation/blocs/item_cubit/item_cubit.dart';
+import 'presentation/blocs/cart_cubit/cart_cubit.dart';
+import 'data/datasources/cart_firebase_data_source.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,6 +31,15 @@ class MyApp extends StatelessWidget {
         BlocProvider<AuthCubit>(
           create: (context) => di.sl<AuthCubit>(),
         ),
+
+        BlocProvider<ItemCubit>(
+          create: (context) => di.sl<ItemCubit>()..loadItems(),
+        ),
+
+        BlocProvider<CartCubit>(
+          create: (_) => CartCubit(di.sl<CartFirebaseDataSource>())..loadCart(),
+        ),
+
       ],
       child: MaterialApp(
         title: 'Surf Para Baixinhos',

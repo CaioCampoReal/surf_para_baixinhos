@@ -5,11 +5,12 @@ part 'item_model.g.dart';
 
 @JsonSerializable()
 class ItemModel {
-  final int id;
+  final String id;
   final String nome;
   final double preco;
   final String imageUrl;
   final String descricao;
+  final int quantidade;
 
   const ItemModel({
     required this.id,
@@ -17,6 +18,7 @@ class ItemModel {
     required this.preco,
     required this.imageUrl,
     required this.descricao,
+    required this.quantidade,
   });
 
   factory ItemModel.fromJson(Map<String, dynamic> json) =>
@@ -31,6 +33,7 @@ class ItemModel {
       preco: preco,
       imageUrl: imageUrl,
       descricao: descricao,
+      quantidade: quantidade,
     );
   }
 
@@ -41,6 +44,17 @@ class ItemModel {
       preco: item.preco,
       imageUrl: item.imageUrl,
       descricao: item.descricao,
+      quantidade: item.quantidade,
     );
+  }
+
+  Map<String, dynamic> toMapWithoutId() {
+    return {
+      'nome': nome,
+      'preco': preco,
+      'imageUrl': imageUrl,
+      'descricao': descricao,
+      'quantidade': quantidade,
+    };
   }
 }

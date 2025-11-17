@@ -3,10 +3,10 @@ import '../repositories/item_repository.dart';
 
 class GetItemById {
   final ItemRepository repository;
-  
+
   GetItemById(this.repository);
-  
-  Future<Item> call(int id) async {
+
+  Future<Item> call(String id) async {
     return await repository.getItemById(id);
   }
 }

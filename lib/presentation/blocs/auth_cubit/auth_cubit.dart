@@ -1,13 +1,13 @@
 import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
 import '../../../domain/entities/user.dart';
 import '../../../domain/usecases/sign_in_with_email.dart';
 import '../../../domain/usecases/register_with_email.dart';
 import '../../../domain/usecases/create_admin_user.dart';
 import '../../../domain/usecases/sign_out.dart';
 import '../../../domain/usecases/get_current_user.dart';
-import '../../../core/errors/auth_failures.dart';
 import 'auth_state.dart';
+import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
 class AuthCubit extends Cubit<AuthState> {
   final SignInWithEmail signInWithEmail;
@@ -15,6 +15,8 @@ class AuthCubit extends Cubit<AuthState> {
   final CreateAdminUser createAdminUser;
   final SignOut signOut;
   final GetCurrentUser getCurrentUser;
+
+  StreamSubscription<firebase_auth.User?>? _authSubscription;
 
   AuthCubit({
     required this.signInWithEmail,
@@ -27,17 +29,31 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   void _initializeAuthListener() {
-    loadCurrentUser();
+    _authSubscription?.cancel();
+    _authSubscription =
+        firebase_auth.FirebaseAuth.instance.authStateChanges().listen(
+      (firebaseUser) async {
+        if (firebaseUser == null) {
+          emit(AuthUnAuthenticated());
+          return;
+        }
+
+        emit(AuthLoading());
+
+        final result = await getCurrentUser();
+
+        result.fold(
+          (failure) => emit(AuthUnAuthenticated()),
+          (user) => emit(AuthAuthenticated(user: user)),
+        );
+      },
+    );
   }
 
-  Future<void> loadCurrentUser() async {
-    emit(AuthLoading());
-    
-    final result = await getCurrentUser();
-    result.fold(
-      (failure) => emit(AuthUnAuthenticated()),
-      (user) => emit(AuthAuthenticated(user: user)),
-    );
+  @override
+  Future<void> close() {
+    _authSubscription?.cancel();
+    return super.close();
   }
 
   Future<void> signIn({
@@ -53,7 +69,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     result.fold(
       (failure) => emit(AuthError(message: failure.message)),
-      (user) => emit(AuthAuthenticated(user: user)),
+      (_) {},
     );
   }
 
@@ -72,7 +88,7 @@ class AuthCubit extends Cubit<AuthState> {
 
     result.fold(
       (failure) => emit(AuthError(message: failure.message)),
-      (user) => emit(AuthAuthenticated(user: user)),
+      (_) {},
     );
   }
 
@@ -91,33 +107,23 @@ class AuthCubit extends Cubit<AuthState> {
 
     result.fold(
       (failure) => emit(AuthError(message: failure.message)),
-      (user) => emit(AuthAuthenticated(user: user)),
+      (_) {},
     );
   }
 
   Future<void> logout() async {
     emit(AuthLoading());
-
-    final result = await signOut();
-    result.fold(
-      (failure) => emit(AuthError(message: failure.message)),
-      (_) => emit(AuthUnAuthenticated()),
-    );
-  }
-
-  void clearError() {
-    if (state is AuthError) {
-      emit(AuthUnAuthenticated());
-    }
+    await signOut();
   }
 
   bool get isAdmin {
-    return state is AuthAuthenticated && 
-           (state as AuthAuthenticated).user.isAdmin;
+    return state is AuthAuthenticated &&
+        (state as AuthAuthenticated).user.isAdmin;
   }
 
   User? get currentUser {
-    return state is AuthAuthenticated ? 
-           (state as AuthAuthenticated).user : null;
+    return state is AuthAuthenticated
+        ? (state as AuthAuthenticated).user
+        : null;
   }
 }

@@ -17,11 +17,12 @@ void main() {
 
   const tItems = [
     Item(
-      id: 1,
+      id: '1',
       nome: 'Pneu de Alta Performance',
       preco: 299.9,
       imageUrl: 'assets/pneu.png',
       descricao: 'Pneu para carros esportivos',
+      quantidade: 1,
     ),
   ];
 
